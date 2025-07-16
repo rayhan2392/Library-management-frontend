@@ -36,12 +36,6 @@ const BookDetails = () => {
         </div>
 
         <div className="space-x-3">
-          <button className="px-4 py-2 text-sm rounded-full font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition">
-            ✏️ Edit
-          </button>
-          <button className="px-4 py-2 text-sm rounded-full font-semibold bg-red-500 text-white hover:bg-red-600 transition">
-            🗑️ Delete
-          </button>
         </div>
       </div>
     </div>

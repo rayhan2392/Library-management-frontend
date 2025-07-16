@@ -1,10 +1,9 @@
 import { useGetBorrowSummaryQuery } from "../redux/api/borrowBookApi";
-import { BookOpen, PackageOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import toast from "react-hot-toast";
 
 const BorrowBookSummary = () => {
   const { data, isLoading, error } = useGetBorrowSummaryQuery(undefined);
-  console.log(data);
 
   if (isLoading)
     return (
@@ -23,39 +22,46 @@ const BorrowBookSummary = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-8 mt-10 bg-gradient-to-br from-slate-50 to-white rounded-3xl shadow-xl border border-indigo-100">
+    <div className="max-w-5xl mx-auto p-8 mt-10 bg-gradient-to-br from-slate-50 to-white rounded-3xl shadow-xl border border-indigo-100">
       <h2 className="text-3xl font-extrabold text-indigo-800 mb-8 flex items-center gap-2">
         <BookOpen size={30} /> Borrow Summary 📚
       </h2>
 
-      {data?.length === 0 && (
+      {data?.length === 0 ? (
         <p className="text-gray-600 text-center text-lg">
           No borrow data available.
         </p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white rounded-xl shadow border">
+            <thead>
+              <tr className="bg-indigo-100 text-indigo-800 text-left text-sm uppercase tracking-wider">
+                <th className="px-6 py-4">Title</th>
+                <th className="px-6 py-4">ISBN</th>
+                <th className="px-6 py-4 text-right">Total Borrowed</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item: any, index: number) => (
+                <tr
+                  key={index}
+                  className="border-t hover:bg-indigo-50 transition duration-200"
+                >
+                  <td className="px-6 py-4 font-semibold text-gray-800">
+                    {item.book.title}
+                  </td>
+                  <td className="px-6 py-4 text-gray-600">
+                    {item.book.isbn}
+                  </td>
+                  <td className="px-6 py-4 text-right text-indigo-700 font-bold">
+                    📦 {item.totalQuantity}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
-
-      <div className="space-y-5">
-        {data?.map((item: any, index: number) => (
-          <div
-            key={index}
-            className="flex items-center justify-between p-6 bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition"
-          >
-            <div className="flex items-center gap-4">
-              <PackageOpen className="text-indigo-600" size={28} />
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {item.book.title}
-                </h3>
-                <p className="text-sm text-gray-500">ISBN: {item.book.isbn}</p>
-              </div>
-            </div>
-
-            <span className="text-indigo-700 font-bold text-xl flex items-center gap-1">
-              📦 {item.totalQuantity}
-            </span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
