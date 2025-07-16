@@ -10,7 +10,7 @@ interface BookProps {
     author: string;
     genre: string;
     isbn: string;
-    description: string;
+    description?: string;
     copies: number;
     available: boolean;
   };

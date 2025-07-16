@@ -6,15 +6,23 @@ import { useNavigate } from "react-router-dom";
 const AddBooks = () => {
   const [createBook] = useCreateBookMutation();
   const navigate = useNavigate();
+  type TBookFormData = {
+  title: string;
+  author: string;
+  genre: string;
+  isbn: string;
+  description?: string;
+  copies: number;
+};
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<TBookFormData>();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:TBookFormData) => {
     try {
       await createBook(data).unwrap();
       toast.success("✅ Book added successfully!");

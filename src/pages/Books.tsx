@@ -5,6 +5,17 @@ const Books = () => {
   const { data = [], isLoading } = useGetBooksQuery(undefined);
   const books = data.data;
 
+  type IBook = {
+  _id: string;
+  title: string;
+  author: string;
+  genre: string;
+  isbn: string;
+  description?: string;
+  copies: number;
+  available: boolean;
+};
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[50vh]">
@@ -32,7 +43,7 @@ const Books = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {books.map((book) => (
+          {books.map((book:IBook) => (
             <BookCard key={book._id} book={book} />
           ))}
         </div>
